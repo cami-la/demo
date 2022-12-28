@@ -1,0 +1,5 @@
+CREATE TABLE roles_tbl (
+  id BIGINT AUTO_INCREMENT NOT NULL,
+   name VARCHAR(255),
+   CONSTRAINT pk_roles_tbl PRIMARY KEY (id)
+);
