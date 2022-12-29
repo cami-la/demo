@@ -9,10 +9,11 @@ data class SignUpRequestDto(
   @field:NotBlank(message = "This field cannot be empty") val password: String,
   @field:NotBlank(message = "This field cannot be empty") val email: String
 ) {
-  fun toEntity(): User = User(
+  /*fun toEntity(): User = User(
     firstName = this.firstName,
     lastName = this.lasName,
     email = this.email,
-    password = password
-  )
+    password = password,
+    roles = mutableSetOf()
+  )*/
 }

@@ -35,11 +35,18 @@ class UserServiceImpl(
       throw BusinessException("User with email ${user.email} already exists")
     }
     val encodedPassword : String = passwordEncoder.encode(signUpRequestDto.password)
-    val entityToSave : User = signUpRequestDto.toEntity().apply {
-      password = encodedPassword
-    }
     val roleUser: Role? = this.roleRepository.findRoleByName("ROLE_USER")
-    user?.roles = mutableSetOf(roleUser)
-    return this.userRepository.save(entityToSave)
+
+    val userToSaved: User = User(
+      firstName = signUpRequestDto.firstName,
+      lastName = signUpRequestDto.lasName,
+      email = signUpRequestDto.email,
+      password = encodedPassword,
+      roles = mutableSetOf(roleUser)
+    )
+
+    val userRepo: User = this.userRepository.save(userToSaved)
+    println("Entity: $userRepo")
+    return userRepo
   }
 }

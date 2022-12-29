@@ -26,6 +26,7 @@ class SetupDataLoader(
   override fun onApplicationEvent(event: ContextRefreshedEvent) {
     if (alreadySetup) return
     val readPrivilege: Privilege = this.createPrivilegeIfNotFound("READ_PRIVILEGE")
+    val Privilege: Privilege = this.createPrivilegeIfNotFound("READ_PRIVILEGE")
     val roleUser: Role = createRoleIfNotFound("ROLE_USER", mutableSetOf(readPrivilege))
 
     val findRoleByName = this.roleRepository.findRoleByName("ROLE_USER")
@@ -39,6 +40,7 @@ class SetupDataLoader(
     )
 
     this.userRepository.save(user)
+    println("Entity Data Setup: $user")
 
 
     this.alreadySetup = true

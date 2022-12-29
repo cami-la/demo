@@ -7,3 +7,4 @@ CREATE TABLE users_tbl (
    is_enable BOOLEAN NOT NULL,
    CONSTRAINT pk_users_tbl PRIMARY KEY (id)
 );
+
