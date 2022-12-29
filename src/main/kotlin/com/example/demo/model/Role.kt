@@ -6,6 +6,6 @@ import jakarta.persistence.*
 @Table(name = "roles_tbl")
 data class Role(
   val name: String,
-  @ManyToMany @JoinTable(name = "roles_privileges") val privileges: MutableCollection<Privilege>,
+  @ManyToMany(fetch = FetchType.EAGER) @JoinTable(name = "roles_privileges") val privileges: MutableCollection<Privilege>,
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null
 )

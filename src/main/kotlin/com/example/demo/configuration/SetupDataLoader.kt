@@ -8,7 +8,7 @@ import com.example.demo.repository.RoleRepository
 import com.example.demo.repository.UserRepository
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,7 +19,7 @@ class SetupDataLoader(
   private val userRepository: UserRepository,
   private val roleRepository: RoleRepository,
   private val privilegeRepository: PrivilegesRepository,
-  private val passwordEncoder: BCryptPasswordEncoder
+  private val passwordEncoder: PasswordEncoder,
 ) : ApplicationListener<ContextRefreshedEvent> {
 
   @Transactional

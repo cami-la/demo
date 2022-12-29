@@ -16,31 +16,24 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+  private val authenticationEntryPoint: MyBasicAuthenticationEntryPoint
+) {
 
   @Bean
-  fun filterChain(http: HttpSecurity) : SecurityFilterChain {
+  fun filterChain(http: HttpSecurity): SecurityFilterChain {
     http
       .cors()
       .and()
       .csrf().disable()
       .authorizeHttpRequests()
-      //.requestMatchers("/").hasAuthority("READ_PRIVILEGE")
+      .requestMatchers("/").hasRole("USER")
       .requestMatchers("/sign-up").permitAll()
       .anyRequest().authenticated()
       .and()
-      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+      .httpBasic()
+      .authenticationEntryPoint(this.authenticationEntryPoint)
     return http.build()
-  }
-
-  @Bean
-  fun userDetailsService(): UserDetailsService? {
-    val user: UserDetails = User.withDefaultPasswordEncoder()
-      .username("user")
-      .password("password")
-      .roles("USER")
-      .build()
-    return InMemoryUserDetailsManager(user)
   }
 
   @Bean
