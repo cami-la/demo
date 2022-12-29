@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController
 class HelloResource {
 
   @GetMapping("/")
-  fun hello() : String = "Hello Spring with Kotlin"
+  fun hello() : String = "<h1>Hello Spring with Kotlin</h1>"
 }

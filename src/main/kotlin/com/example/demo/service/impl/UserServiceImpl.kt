@@ -39,7 +39,7 @@ class UserServiceImpl(
       password = encodedPassword
     }
     val roleUser: Role? = this.roleRepository.findRoleByName("ROLE_USER")
-    user?.roles?.add(roleUser)
+    user?.roles = mutableSetOf(roleUser)
     return this.userRepository.save(entityToSave)
   }
 }

@@ -13,7 +13,6 @@ data class SignUpRequestDto(
     firstName = this.firstName,
     lastName = this.lasName,
     email = this.email,
-    password = password,
-    roles = mutableSetOf()
+    password = password
   )
 }

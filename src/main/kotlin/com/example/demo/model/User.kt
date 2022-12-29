@@ -10,6 +10,6 @@ data class User(
   var email: String,
   var password: String,
   var isEnable: Boolean = true,
-  @ManyToMany(fetch = FetchType.EAGER) @JoinTable(name = "users_roles") var roles: MutableCollection<Role?>,
+  @ManyToMany(fetch = FetchType.EAGER) @JoinTable(name = "users_roles") var roles: MutableCollection<Role?> = mutableSetOf(),
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null
 )

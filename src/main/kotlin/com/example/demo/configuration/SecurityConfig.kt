@@ -27,12 +27,15 @@ class SecurityConfig(
       .and()
       .csrf().disable()
       .authorizeHttpRequests()
-      .requestMatchers("/").hasRole("USER")
+      //.requestMatchers("/").hasRole("USER")
+      .requestMatchers("/").hasAuthority("READ_PRIVILEGE")
       .requestMatchers("/sign-up").permitAll()
       .anyRequest().authenticated()
       .and()
       .httpBasic()
       .authenticationEntryPoint(this.authenticationEntryPoint)
+      .and()
+      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     return http.build()
   }
 

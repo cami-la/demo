@@ -28,12 +28,14 @@ class SetupDataLoader(
     val readPrivilege: Privilege = this.createPrivilegeIfNotFound("READ_PRIVILEGE")
     val roleUser: Role = createRoleIfNotFound("ROLE_USER", mutableSetOf(readPrivilege))
 
+    val findRoleByName = this.roleRepository.findRoleByName("ROLE_USER")
+
     val user: User = User(
       firstName = "Cami",
       lastName = "Cavalcante",
       password = passwordEncoder.encode("1234"),
-      email = "camil@email.com",
-      roles = mutableSetOf(roleUser)
+      email = "camila@email.com",
+      roles = mutableSetOf(findRoleByName)
     )
 
     this.userRepository.save(user)
