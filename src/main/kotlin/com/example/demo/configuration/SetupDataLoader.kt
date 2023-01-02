@@ -26,22 +26,33 @@ class SetupDataLoader(
   override fun onApplicationEvent(event: ContextRefreshedEvent) {
     if (alreadySetup) return
     val readPrivilege: Privilege = this.createPrivilegeIfNotFound("READ_PRIVILEGE")
-    val Privilege: Privilege = this.createPrivilegeIfNotFound("READ_PRIVILEGE")
-    val roleUser: Role = createRoleIfNotFound("ROLE_USER", mutableSetOf(readPrivilege))
+    val writePrivilege: Privilege = this.createPrivilegeIfNotFound("WRITE_PRIVILEGE")
+    createRoleIfNotFound("ROLE_USER", mutableSetOf(readPrivilege))
+    createRoleIfNotFound("ROLE_ADMIN", mutableSetOf(readPrivilege, writePrivilege))
 
-    val findRoleByName = this.roleRepository.findRoleByName("ROLE_USER")
+    val findRoleUserByName = this.roleRepository.findRoleByName("ROLE_USER")
+    val findRoleAdminByName = this.roleRepository.findRoleByName("ROLE_ADMIN")
 
     val user: User = User(
+      firstName = "Anna",
+      lastName = "Silva",
+      password = passwordEncoder.encode("123456"),
+      email = "anna@email.com",
+      roles = mutableSetOf(findRoleUserByName)
+    )
+
+    val admin: User = User(
       firstName = "Cami",
       lastName = "Cavalcante",
-      password = passwordEncoder.encode("1234"),
-      email = "camila@email.com",
-      roles = mutableSetOf(findRoleByName)
+      password = passwordEncoder.encode("123456"),
+      email = "cami@email.com",
+      roles = mutableSetOf(findRoleAdminByName)
     )
 
     this.userRepository.save(user)
+    this.userRepository.save(admin)
     println("Entity Data Setup: $user")
-
+    println("Entity Data Setup: $admin")
 
     this.alreadySetup = true
   }
@@ -57,12 +68,11 @@ class SetupDataLoader(
   }
 
   @Transactional
-  fun createRoleIfNotFound(name: String, privileges: MutableCollection<Privilege>): Role {
+  fun createRoleIfNotFound(name: String, privileges: MutableCollection<Privilege>): Unit {
     var role: Role? = this.roleRepository.findRoleByName(name)
     if (role == null) {
       role = Role(name, privileges)
       this.roleRepository.save(role)
     }
-    return role
   }
 }
